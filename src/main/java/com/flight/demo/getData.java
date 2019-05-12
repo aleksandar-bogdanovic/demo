@@ -7,12 +7,17 @@ import com.amadeus.resources.FlightOffer;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.io.*;
 
 import java.util.ArrayList;
 
 public class getData {
 
-public static void getData(String origin, String dest, String depDate, String retDate, Integer passengerNo, String currency) throws JSONException, ResponseException {
+public static void getData(String origin, String dest, String depDate, String retDate, Integer passengerNo, String currency,int ID) throws JSONException, ResponseException {
 
     Amadeus amadeus = Amadeus
             .builder("XGgFtAosGX8R5OAJ4sZcXEbP2rLZRz7b", "zPy9EsDxUFkc6p4C")
@@ -39,6 +44,7 @@ public static void getData(String origin, String dest, String depDate, String re
 //		for (int i = 0; i < locations.length; i++) {
 //			System.out.println(locations[i].getResponse().getBody());
 //		}
+
 
 
     String dataOdlazak=flightOffersOdlazak[0].getResponse().getBody();
@@ -115,7 +121,49 @@ public static void getData(String origin, String dest, String depDate, String re
 
                     brPutnikaOdlazak=true;
                     System.out.println("from "+depIATA+" at "+depTime+" to "+arrIATA+" at "+arrTime+" | "+availability+" seats available.");
+                    Connection conn = null;
+                    try {
 
+                        // Open a connection
+                        DbManager db = new DbManager();
+                        conn = db.getConection();
+
+                        int abc=1;
+                        String sql;
+                        sql = "INSERT INTO letovi ( PolazniAjrodrom, OdredisniAjrodrom, DatumPolaska, DatumPovratka, BrojSjedista, UkupnaCijena,Valuta,PretragaID) VALUES (?,?,?,?,?,?,?,?)";
+                        PreparedStatement stmt = conn.prepareStatement(sql);
+                        stmt.setInt(8,ID);
+                        stmt.setString(1, depIATA);
+                        stmt.setString(2, arrIATA);
+                        stmt.setString(3, depTime);
+                        stmt.setString(4, arrTime);
+                        stmt.setInt(5, availability);
+                        if(segmentsArr.length()-1== i){
+                        stmt.setDouble(6, price);}
+                        else{
+                            stmt.setDouble(6, abc);
+                        }
+                        stmt.setString(7, currency);
+                        stmt.executeUpdate();
+                        // STEP 6: Clean-up environment
+
+                        stmt.close();
+                        conn.close();
+
+                    } catch (SQLException se) {
+                        // Handle errors for JDBC
+                        se.printStackTrace();
+                    } catch (Exception e) {
+                        // Handle errors for Class.forName
+                        e.printStackTrace();
+                    } finally {
+                        try {
+                            if (conn != null)
+                                conn.close();
+                        } catch (SQLException se) {
+                            se.printStackTrace();
+                        } // end finally try
+                    } // end try
                 }
                 if (brPutnikaOdlazak){
                 System.out.println("-----Trip cost: "+price+"-----");
@@ -170,6 +218,48 @@ public static void getData(String origin, String dest, String depDate, String re
 
                     System.out.println("from "+depIATA2+" at "+depTime2+" to "+arrIATA2+" at "+arrTime2+" | "+availability2+" seats available.");
                     brPutnikaPovratak=true;
+                    Connection conn = null;
+                    try {
+
+                        // Open a connection
+                        DbManager db = new DbManager();
+                        conn = db.getConection();
+                        int abc=1;
+                        String sql;
+                        sql = "INSERT INTO letovi ( PolazniAjrodrom, OdredisniAjrodrom, DatumPolaska, DatumPovratka, BrojSjedista, UkupnaCijena,Valuta,PretragaID) VALUES (?,?,?,?,?,?,?,?)";
+                        PreparedStatement stmt = conn.prepareStatement(sql);
+                        stmt.setInt(8,ID);
+                        stmt.setString(1, depIATA2);
+                        stmt.setString(2, arrIATA2);
+                        stmt.setString(3, depTime2);
+                        stmt.setString(4, arrTime2);
+                        stmt.setInt(5, availability2);
+                        if(segmentsArr2.length()-1== i){
+                            stmt.setDouble(6, price2);}
+                        else{
+                            stmt.setDouble(6, abc);
+                        }
+                        stmt.setString(7, currency);
+                        stmt.executeUpdate();
+                        // STEP 6: Clean-up environment
+
+                        stmt.close();
+                        conn.close();
+
+                    } catch (SQLException se) {
+                        // Handle errors for JDBC
+                        se.printStackTrace();
+                    } catch (Exception e) {
+                        // Handle errors for Class.forName
+                        e.printStackTrace();
+                    } finally {
+                        try {
+                            if (conn != null)
+                                conn.close();
+                        } catch (SQLException se) {
+                            se.printStackTrace();
+                        } // end finally try
+                    } // end try
 
                 }
                 if (brPutnikaPovratak){

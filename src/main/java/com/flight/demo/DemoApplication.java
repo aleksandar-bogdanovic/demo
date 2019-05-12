@@ -20,6 +20,7 @@ import org.thymeleaf.spring5.SpringTemplateEngine;
 import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -74,8 +75,89 @@ public class DemoApplication {
 
 		System.out.println("Pribavljanje podataka, molim sačekati...");
 
-		getData.getData(PolazisniI,OdredisniI, DatumPolaskaI, DatumDolaskaI, BrPutnikaI, ValutaI);
+		Connection conn = null;
+		try {
 
+			// Open a connection
+			DbManager db = new DbManager();
+			conn = db.getConection();
+
+			int abc=1;
+			String sql;
+			sql = "INSERT INTO pretraga ( PolazniAjrodrom, OdredisniAjrodrom, DatumPolaska, DatumPovratka, BrojPutnika, Valuta) VALUES (?,?,?,?,?,?)";
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setString(1, PolazisniI);
+			stmt.setString(2, OdredisniI);
+			stmt.setString(3, DatumPolaskaI);
+			stmt.setString(4, DatumDolaskaI);
+			stmt.setInt(5, BrPutnikaI);
+			stmt.setString(6, ValutaI);
+			stmt.executeUpdate();
+			// STEP 6: Clean-up environment
+
+			stmt.close();
+			conn.close();
+
+		} catch (SQLException se) {
+			// Handle errors for JDBC
+			se.printStackTrace();
+		} catch (Exception e) {
+			// Handle errors for Class.forName
+			e.printStackTrace();
+		} finally {
+			try {
+				if (conn != null)
+					conn.close();
+			} catch (SQLException se) {
+				se.printStackTrace();
+			} // end finally try
+		} // end try
+
+		conn = null;
+		Statement stmt=null;
+		int ID=0;
+		try{
+			//STEP 2: Register JDBC driver
+			DbManager db = new DbManager();
+			conn = db.getConection();
+
+			stmt = conn.createStatement();
+			String sql;
+
+			sql = "SELECT PretragaID FROM letovi.pretraga ORDER BY PretragaID DESC LIMIT 1";
+			ResultSet rs = stmt.executeQuery(sql);
+
+			while(rs.next()){
+				ID= rs.getInt("PretragaID");
+			}
+			stmt.close();
+			rs.close();
+			conn.close();
+
+		}catch(SQLException se){
+			//Handle errors for JDBC
+			se.printStackTrace();
+		}catch(Exception e){
+			//Handle errors for Class.forName
+			e.printStackTrace();
+		}finally{
+			//finally block is used to close resources
+			try{
+				if(stmt!=null)
+					stmt.close();
+			}catch(SQLException se2){
+			}// nothing we can do
+			try{
+				if(conn!=null)
+					conn.close();
+			}catch(SQLException se){
+				se.printStackTrace();
+			}//end finally try
+		}//end try
+
+
+
+		getData.getData(PolazisniI,OdredisniI, DatumPolaskaI, DatumDolaskaI, BrPutnikaI, ValutaI,ID);
 
 //		Amadeus amadeus = Amadeus
 //				.builder("XGgFtAosGX8R5OAJ4sZcXEbP2rLZRz7b", "zPy9EsDxUFkc6p4C")
