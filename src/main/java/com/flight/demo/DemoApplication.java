@@ -52,11 +52,11 @@ public class DemoApplication {
 		System.out.println("Datum Polaska: " + DatumPolaskaI);
 
 		Scanner DatumDolaska = new Scanner(System.in);
-		System.out.println("Datum Dolaska");
+		System.out.println("Datum Povratka");
 
 
 		String DatumDolaskaI = DatumDolaska.nextLine();
-		System.out.println("Datum Dolaska : " + DatumDolaskaI);
+		System.out.println("Datum Povratka : " + DatumDolaskaI);
 
 		Scanner BrPutnika = new Scanner(System.in);
 		System.out.println("Broj putnika");
@@ -72,6 +72,7 @@ public class DemoApplication {
 		String ValutaI = Valuta.nextLine();
 		System.out.println("Valuta: " + ValutaI);
 
+		System.out.println("Pribavljanje podataka molim sacekati...");
 
 		getData.getData(PolazisniI,OdredisniI, DatumPolaskaI, DatumDolaskaI, BrPutnikaI, ValutaI);
 
