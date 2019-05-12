@@ -162,8 +162,8 @@ public static void getData(String origin, String dest, String depDate, String re
                                 conn.close();
                         } catch (SQLException se) {
                             se.printStackTrace();
-                        } // end finally try
-                    } // end try
+                        }
+                    } //Ubacivanje u bazu ponude odlazka
                 }
                 if (brPutnikaOdlazak){
                 System.out.println("-----Trip cost: "+price+"-----");
@@ -252,15 +252,14 @@ public static void getData(String origin, String dest, String depDate, String re
                     } catch (Exception e) {
                         // Handle errors for Class.forName
                         e.printStackTrace();
-                    } finally {
+                    } finally { //Ubacivanje u bazu ponude odlazka
                         try {
                             if (conn != null)
                                 conn.close();
                         } catch (SQLException se) {
                             se.printStackTrace();
-                        } // end finally try
-                    } // end try
-
+                        }
+                    } //Ubacivanje u bazu ponude odlazka
                 }
                 if (brPutnikaPovratak){
                 System.out.println("-----Trip cost: "+price2+"-----");
