@@ -31,32 +31,32 @@ public class DemoApplication {
 		SpringApplication.run(DemoApplication.class, args);
 
 		Scanner Polazisni = new Scanner(System.in);
-		System.out.println("Aerodrom polaska");
+		System.out.println("Polazni aerodrom");
 
 
 		String PolazisniI = Polazisni.nextLine();
-		System.out.println("Aerodrom polaska: " + PolazisniI);
+		System.out.println("Polazni aerodrom: " + PolazisniI);
 
 		Scanner Odredisni = new Scanner(System.in);
-		System.out.println("Aerodrom povratka");
+		System.out.println("Odredišni aerodrom");
 
 
 		String OdredisniI = Odredisni.nextLine();
-		System.out.println("Aerodrom povratka	: " + OdredisniI);
+		System.out.println("Odredišni aerodrom: " + OdredisniI);
 
 		Scanner DatumPolaska = new Scanner(System.in);
-		System.out.println("Datum Polaska");
+		System.out.println("Datum polaska");
 
 
 		String DatumPolaskaI = DatumPolaska.nextLine();
-		System.out.println("Datum Polaska: " + DatumPolaskaI);
+		System.out.println("Datum polaska: " + DatumPolaskaI);
 
 		Scanner DatumDolaska = new Scanner(System.in);
-		System.out.println("Datum Povratka");
+		System.out.println("Datum povratka");
 
 
 		String DatumDolaskaI = DatumDolaska.nextLine();
-		System.out.println("Datum Povratka : " + DatumDolaskaI);
+		System.out.println("Datum povratka : " + DatumDolaskaI);
 
 		Scanner BrPutnika = new Scanner(System.in);
 		System.out.println("Broj putnika");
@@ -72,7 +72,7 @@ public class DemoApplication {
 		String ValutaI = Valuta.nextLine();
 		System.out.println("Valuta: " + ValutaI);
 
-		System.out.println("Pribavljanje podataka molim sacekati...");
+		System.out.println("Pribavljanje podataka, molim sačekati...");
 
 		getData.getData(PolazisniI,OdredisniI, DatumPolaskaI, DatumDolaskaI, BrPutnikaI, ValutaI);
 

@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 public class getData {
 
-public static ArrayList<String> getData(String origin, String dest, String depDate, String retDate, Integer passengerNo, String currency) throws JSONException, ResponseException {
+public static void getData(String origin, String dest, String depDate, String retDate, Integer passengerNo, String currency) throws JSONException, ResponseException {
 
     Amadeus amadeus = Amadeus
             .builder("XGgFtAosGX8R5OAJ4sZcXEbP2rLZRz7b", "zPy9EsDxUFkc6p4C")
@@ -68,9 +68,6 @@ public static ArrayList<String> getData(String origin, String dest, String depDa
     JSONObject obj2 = new JSONObject(dataPovratak);
     JSONArray dataArr2=obj2.getJSONArray("data");
 
-    ArrayList<String> depList=new ArrayList<String>();
-    ArrayList<String> arrList=new ArrayList<String>();
-
     boolean brPutnikaOdlazak=false;
 
 
@@ -79,7 +76,7 @@ public static ArrayList<String> getData(String origin, String dest, String depDa
 
         JSONArray offerItemsArr=dataArr.getJSONObject(m).getJSONArray("offerItems");
 
-
+        outerloop:
         for (int k = 0; k < offerItemsArr.length(); k++) {
 
             JSONArray servicesArr=offerItemsArr.getJSONObject(k).getJSONArray("services");
@@ -89,6 +86,16 @@ public static ArrayList<String> getData(String origin, String dest, String depDa
             for (int j = 0; j < servicesArr.length(); j++) {
 
                 JSONArray segmentsArr=servicesArr.getJSONObject(j).getJSONArray("segments");
+
+
+                for (int l = 0; l <segmentsArr.length() ; l++) {
+                    JSONObject availObj=segmentsArr.getJSONObject(l).getJSONObject("pricingDetailPerAdult");
+                    Integer availability=availObj.getInt("availability");
+                    if (availability<passengerNo){
+                        continue outerloop;
+                    }
+                }
+
 
                 for (int i = 0; i < segmentsArr.length(); i++) {
 
@@ -106,13 +113,9 @@ public static ArrayList<String> getData(String origin, String dest, String depDa
                     String depTime=departureObj.getString("at");
                     String arrTime=arrivalObj.getString("at");
 
-                    depList.add(depIATA);
-                    arrList.add(arrIATA);
-
-                    if (availability>passengerNo){
-                        brPutnikaOdlazak=true;
+                    brPutnikaOdlazak=true;
                     System.out.println("from "+depIATA+" at "+depTime+" to "+arrIATA+" at "+arrTime+" | "+availability+" seats available.");
-                    }
+
                 }
                 if (brPutnikaOdlazak){
                 System.out.println("-----Trip cost: "+price+"-----");
@@ -125,12 +128,13 @@ public static ArrayList<String> getData(String origin, String dest, String depDa
 
     System.out.println("============================================= PONUDA POVRATAK =============================================");
 
-boolean brPutnikaPovratak=false;
+    boolean brPutnikaPovratak=false;
+
     for (int m = 0; m < dataArr2.length(); m++) {
 
         JSONArray offerItemsArr2=dataArr2.getJSONObject(m).getJSONArray("offerItems");
 
-
+        outerloop:
         for (int k = 0; k < offerItemsArr2.length(); k++) {
 
             JSONArray servicesArr2=offerItemsArr2.getJSONObject(k).getJSONArray("services");
@@ -140,30 +144,33 @@ boolean brPutnikaPovratak=false;
             for (int j = 0; j < servicesArr2.length(); j++) {
 
                 JSONArray segmentsArr2=servicesArr2.getJSONObject(j).getJSONArray("segments");
+                for (int l = 0; l <segmentsArr2.length() ; l++) {
+                    JSONObject availObj=segmentsArr2.getJSONObject(l).getJSONObject("pricingDetailPerAdult");
+                    Integer availability=availObj.getInt("availability");
+                    if (availability<passengerNo){
+                        continue outerloop;
+                    }
+                }
 
                 for (int i = 0; i < segmentsArr2.length(); i++) {
 
                     JSONObject flightSegmentsObj2=segmentsArr2.getJSONObject(i).getJSONObject("flightSegment");
-                    JSONObject availObj2=segmentsArr2.getJSONObject(i).getJSONObject("pricingDetailPerAdult");
 
+                    JSONObject availObj2=segmentsArr2.getJSONObject(i).getJSONObject("pricingDetailPerAdult");
+                    Integer availability2=availObj2.getInt("availability");
 
                     JSONObject departureObj2=flightSegmentsObj2.getJSONObject("departure");
                     JSONObject arrivalObj2=flightSegmentsObj2.getJSONObject("arrival");
 
                     String depIATA2=departureObj2.getString("iataCode");
                     String arrIATA2=arrivalObj2.getString("iataCode");
-                    Integer availability2=availObj2.getInt("availability");
 
                     String depTime2=departureObj2.getString("at");
                     String arrTime2=arrivalObj2.getString("at");
 
-                    depList.add(depIATA2);
-                    arrList.add(arrIATA2);
-
-                    if (availability2>passengerNo){
-                        brPutnikaPovratak=true;
                     System.out.println("from "+depIATA2+" at "+depTime2+" to "+arrIATA2+" at "+arrTime2+" | "+availability2+" seats available.");
-                    }
+                    brPutnikaPovratak=true;
+
                 }
                 if (brPutnikaPovratak){
                 System.out.println("-----Trip cost: "+price2+"-----");
@@ -173,7 +180,6 @@ boolean brPutnikaPovratak=false;
 
             }
         }
-    }
-return depList;
+        }
     }
 }
