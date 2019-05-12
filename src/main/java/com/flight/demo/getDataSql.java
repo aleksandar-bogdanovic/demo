@@ -21,6 +21,7 @@ public class getDataSql {
         String DolazniD;
         Integer BrPutnika;
         String Valuta;
+        String Cijena;
         int id2=0;
         int idS=0;
         boolean provjera=false;
@@ -75,6 +76,55 @@ public class getDataSql {
 
         if(provjera==true) {
             System.out.println("Test"+id2);
+            try{
+                //STEP 2: Register JDBC driver
+                DbManager db = new DbManager();
+                conn = db.getConection();
+
+                stmt = conn.createStatement();
+                String sql;
+
+                sql = "SELECT * FROM letovi.letovi WHERE PretragaID='"+id2 +"'";
+                ResultSet rs = stmt.executeQuery(sql);
+                String prov="1";
+                while(rs.next()){
+                    PolazniA= rs.getString("PolazniAjrodrom");
+                    OdredisniA= rs.getString("OdredisniAjrodrom");
+                    PolazniD= rs.getString("DatumPolaska");
+                    DolazniD= rs.getString("DatumPovratka");
+                    BrPutnika= rs.getInt("BrojSjedista");
+                    Cijena= rs.getString("UkupnaCijena");
+                    Valuta=rs.getString("Valuta");
+                    System.out.println("from "+PolazniA+" at "+PolazniD+" to "+OdredisniA+" at "+DolazniD+" | "+BrPutnika+" seats available.");
+                    if(!Cijena.equals(prov)){
+                        System.out.println("-----Trip cost: "+Cijena+Valuta+"-----");
+                        System.out.println("-----------------------------");
+                    }
+                }
+                stmt.close();
+                rs.close();
+                conn.close();
+
+            }catch(SQLException se){
+                //Handle errors for JDBC
+                se.printStackTrace();
+            }catch(Exception e){
+                //Handle errors for Class.forName
+                e.printStackTrace();
+            }finally{
+
+                try{
+                    if(stmt!=null)
+                        stmt.close();
+                }catch(SQLException se2){
+                }
+                try{
+                    if(conn!=null)
+                        conn.close();
+                }catch(SQLException se){
+                    se.printStackTrace();
+                }
+            }//Provjera unosa korisnika dali postoji u bazi
         }
         else{
             conn = null;
