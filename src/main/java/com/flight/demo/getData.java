@@ -130,7 +130,7 @@ public static void getData(String origin, String dest, String depDate, String re
 
                         int abc=1;
                         String sql;
-                        sql = "INSERT INTO letovi ( PolazniAjrodrom, OdredisniAjrodrom, DatumPolaska, DatumPovratka, BrojSjedista, UkupnaCijena,Valuta,PretragaID) VALUES (?,?,?,?,?,?,?,?)";
+                        sql = "INSERT INTO letovi ( PolazniAerodrom, OdredisniAerodrom, DatumPolaska, DatumPovratka, BrojSjedista, UkupnaCijena,Valuta,PretragaID) VALUES (?,?,?,?,?,?,?,?)";
                         PreparedStatement stmt = conn.prepareStatement(sql);
                         stmt.setInt(8,ID);
                         stmt.setString(1, depIATA);
@@ -166,7 +166,7 @@ public static void getData(String origin, String dest, String depDate, String re
                     } //Ubacivanje u bazu ponude odlazka
                 }
                 if (brPutnikaOdlazak){
-                System.out.println("-----Trip cost: "+price+"-----");
+                System.out.println("-----Trip cost: "+price+" "+currency+"-----");
                 System.out.println("-----------------------------");
                 }
                 brPutnikaOdlazak=false;
@@ -226,7 +226,7 @@ public static void getData(String origin, String dest, String depDate, String re
                         conn = db.getConection();
                         int abc=1;
                         String sql;
-                        sql = "INSERT INTO letovi ( PolazniAjrodrom, OdredisniAjrodrom, DatumPolaska, DatumPovratka, BrojSjedista, UkupnaCijena,Valuta,PretragaID) VALUES (?,?,?,?,?,?,?,?)";
+                        sql = "INSERT INTO letovi ( PolazniAerodrom, OdredisniAerodrom, DatumPolaska, DatumPovratka, BrojSjedista, UkupnaCijena,Valuta,PretragaID) VALUES (?,?,?,?,?,?,?,?)";
                         PreparedStatement stmt = conn.prepareStatement(sql);
                         stmt.setInt(8,ID);
                         stmt.setString(1, depIATA2);
@@ -262,7 +262,7 @@ public static void getData(String origin, String dest, String depDate, String re
                     } //Ubacivanje u bazu ponude odlazka
                 }
                 if (brPutnikaPovratak){
-                System.out.println("-----Trip cost: "+price2+"-----");
+                System.out.println("-----Trip cost: "+price2+" "+currency+"-----");
                 System.out.println("-----------------------------");
                 }
                 brPutnikaPovratak=false;

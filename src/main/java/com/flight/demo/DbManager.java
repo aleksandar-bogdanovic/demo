@@ -11,7 +11,7 @@ public class DbManager {
 	 public Connection getConection() {
 		 try {
 			Class.forName("com.mysql.jdbc.Driver");
-            Connection conn= DriverManager.getConnection("jdbc:mysql://localhost:3306/letovi","root","1234");
+            Connection conn= DriverManager.getConnection("jdbc:mysql://localhost:3306/letovi","root","mysqlsifra");
             return conn;
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block

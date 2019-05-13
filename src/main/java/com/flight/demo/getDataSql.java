@@ -37,8 +37,8 @@ public class getDataSql {
             ResultSet rs = stmt.executeQuery(sql);
 
             while(rs.next()){
-                PolazniA= rs.getString("PolazniAjrodrom");
-                OdredisniA= rs.getString("OdredisniAjrodrom");
+                PolazniA= rs.getString("PolazniAerodrom");
+                OdredisniA= rs.getString("OdredisniAerodrom");
                 PolazniD= rs.getString("DatumPolaska");
                 DolazniD= rs.getString("DatumPovratka");
                 BrPutnika= rs.getInt("BrojPutnika");
@@ -88,8 +88,8 @@ public class getDataSql {
                 ResultSet rs = stmt.executeQuery(sql);
                 String prov="1";
                 while(rs.next()){
-                    PolazniA= rs.getString("PolazniAjrodrom");
-                    OdredisniA= rs.getString("OdredisniAjrodrom");
+                    PolazniA= rs.getString("PolazniAerodrom");
+                    OdredisniA= rs.getString("OdredisniAerodrom");
                     PolazniD= rs.getString("DatumPolaska");
                     DolazniD= rs.getString("DatumPovratka");
                     BrPutnika= rs.getInt("BrojSjedista");
@@ -97,7 +97,7 @@ public class getDataSql {
                     Valuta=rs.getString("Valuta");
                     System.out.println("from "+PolazniA+" at "+PolazniD+" to "+OdredisniA+" at "+DolazniD+" | "+BrPutnika+" seats available.");
                     if(!Cijena.equals(prov)){
-                        System.out.println("-----Trip cost: "+Cijena+Valuta+"-----");
+                        System.out.println("-----Trip cost: "+Cijena+" "+Valuta+"-----");
                         System.out.println("-----------------------------");
                     }
                 }
@@ -137,7 +137,7 @@ public class getDataSql {
 
                 int abc=1;
                 String sql;
-                sql = "INSERT INTO pretraga ( PolazniAjrodrom, OdredisniAjrodrom, DatumPolaska, DatumPovratka, BrojPutnika, Valuta) VALUES (?,?,?,?,?,?)";
+                sql = "INSERT INTO pretraga ( PolazniAerodrom, OdredisniAerodrom, DatumPolaska, DatumPovratka, BrojPutnika, Valuta) VALUES (?,?,?,?,?,?)";
                 stmt = conn.prepareStatement(sql);
                 ((PreparedStatement) stmt).setString(1, origin);
                 ((PreparedStatement) stmt).setString(2, dest);
